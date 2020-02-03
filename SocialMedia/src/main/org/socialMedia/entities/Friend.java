@@ -7,8 +7,6 @@ import javax.persistence.*;
 @Table(name = "friend")
 public class Friend {
 
-    private String test;
-
     @Id
     @GeneratedValue
     @Column(name = "FRIEND_ID")
