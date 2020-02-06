@@ -25,7 +25,6 @@ public class Login extends HttpServlet {
         String userName = req.getParameter("username");
         String password = req.getParameter("password");
 
-//        User loginUser = new User(userName,password);
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -49,9 +48,7 @@ public class Login extends HttpServlet {
                     }
                 }
             }
-            req.setAttribute("username","wrong");
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
-            requestDispatcher.forward(req, resp);
+            
             sessionObj.getTransaction().commit();
         } catch (Exception sqlException) {
             if (null != sessionObj.getTransaction()) {
@@ -64,6 +61,8 @@ public class Login extends HttpServlet {
                 sessionObj.close();
             }
         }
-
+        req.setAttribute("username","wrong");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
+        requestDispatcher.forward(req, resp);
     }
 }
