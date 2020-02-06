@@ -15,9 +15,11 @@ public class Post {
     private int postID;
 
     @Column(name = "URL")
+    @Lob
     private String url;
 
     @Column(name = "CAPTION")
+    @Lob
     private String caption;
 
     @Column(name = "DATE")

@@ -15,6 +15,7 @@ public class Hashtag {
     private int hashtagID;
 
     @Column(name = "TEXT")
+    @Lob
     private String text;
 
     @ManyToMany

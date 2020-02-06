@@ -13,6 +13,7 @@ public class Comment {
     private int commentID;
 
     @Column(name = "CONTEXT")
+    @Lob
     private String context;
 
     @ManyToOne

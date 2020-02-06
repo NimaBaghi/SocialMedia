@@ -24,6 +24,7 @@ public class User {
     private String password;
 
     @Column(name = "PROFILE_PICTURE")
+    @Lob
     private String profilePicture;
 
     @Column(name = "PROFILE_PRIVACY")
@@ -49,6 +50,11 @@ public class User {
         this.fullName = fullName;
         this.password = password;
         this.profilePrivacy = profilePrivacy;
+    }
+
+    public User(String userName,String password){
+        this.userName = userName;
+        this.password = password;
     }
 
     public User(String userName, String fullName, String password, String profilePicture, int profilePrivacy) {
