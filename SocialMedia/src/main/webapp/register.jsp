@@ -7,7 +7,7 @@
 <form action="register" method="post">
     <center>
 
-        <% if (request.getAttribute("null") == "notok") {%>
+        <% if (request.getAttribute("fields") == "null") {%>
 
         Username: <input type="text" name="username" value="<%=request.getAttribute("uname")%>">
         <br>
@@ -60,7 +60,7 @@
 
         <% } %>
 
-        <% if (request.getAttribute("userTaken") == "notok") {%>
+        <% if (request.getAttribute("username") == "taken") {%>
         <h1 style="color: red">
             Username taken please insert something else.
         </h1>

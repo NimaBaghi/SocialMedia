@@ -20,6 +20,27 @@
         <br>
         <br>
 
+        <% if (request.getSession(true).getAttribute("register") == "successful") {%>
+        <h1 style="color: green">
+        You have successfully registered.
+        </h1>
+        <% request.getSession().setAttribute("register","done"); %>
+        <%}%>
+
+        <% if ( request.getAttribute("password") == "wrong") {%>
+        <h1 style="color: red">
+            Wrong password. Try it again!
+        </h1>
+        <% request.setAttribute("password","done"); %>
+        <%}%>
+
+        <% if ( request.getAttribute("username") == "wrong") {%>
+        <h1 style="color: red">
+            Wrong username. Try it again!
+        </h1>
+        <% request.setAttribute("username","done"); %>
+        <%}%>
+
     </center>
 </form>
 </body>

@@ -32,7 +32,7 @@ public class Register extends HttpServlet {
         int privacy = Integer.parseInt(pri); //private = 0, public = 1
 
         if (userName == null || userName.trim().equals("") || fullName == null || fullName.trim().equals("") || password == null || password.trim().equals("")) {
-            req.setAttribute("null", "notok");
+            req.setAttribute("fields", "null");
             req.setAttribute("uname",userName);
             req.setAttribute("fname",fullName);
             req.setAttribute("pass",password);
@@ -54,13 +54,14 @@ public class Register extends HttpServlet {
 
                 sessionObj.beginTransaction();
 
-                Query query = sessionObj.createQuery("from User");
-                List<User> users = query.list();
-                for (int i = 0; i < users.size(); i++) {
-                    if (users.get(i).getUserName().equals(userName)) {
-                        req.setAttribute("userTaken", "notok");
+                Query query = sessionObj.createQuery("select userName from User");
+                List<String> userNames = query.list();
+                for (int i = 0; i < userNames.size(); i++) {
+                    if (userNames.get(i).equals(userName)) {
+                        req.setAttribute("username", "taken");
                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("register.jsp");
                         requestDispatcher.forward(req, resp);
+                        sessionObj.getTransaction().commit();
                         return;
                     }
                 }
@@ -80,7 +81,9 @@ public class Register extends HttpServlet {
                     sessionObj.close();
                 }
             }
-
+            req.getSession().setAttribute("register","successful");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
+            requestDispatcher.forward(req, resp);
         }
     }
 }

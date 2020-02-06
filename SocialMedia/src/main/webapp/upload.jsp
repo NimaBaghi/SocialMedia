@@ -10,7 +10,7 @@
         <input type="file" name="file" onchange="previewFile()"><br>
         <br>
         <br>
-        <img src="" width="600" height="600" alt="Image preview...">
+        <img src="" width="800" height="800" alt="Image preview...">
         <br>
         <br>
         <script type="text/javascript">
