@@ -1,5 +1,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<head>
+    <title>Post Details</title>
+</head>
 <body>
 
 <center>
@@ -7,7 +10,7 @@
         <input type="file" name="file" onchange="previewFile()"><br>
         <br>
         <br>
-        <img src="" alt="Image preview...">
+        <img src="" width="600" height="600" alt="Image preview...">
         <br>
         <br>
         <script type="text/javascript">

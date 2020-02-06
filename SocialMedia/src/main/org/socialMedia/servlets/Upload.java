@@ -24,7 +24,6 @@ import java.util.Date;
 @MultipartConfig
 public class Upload extends HttpServlet {
     public static int userImages = 1;
-    //    public static int postID = 1;
     public static Session sessionObj;
     public static SessionFactory sessionFactoryObj;
 
@@ -50,13 +49,6 @@ public class Upload extends HttpServlet {
 
         Post post = new Post(fileName, "", new Date());
 
-
-//        System.out.println("post: "+post.getPostID());
-
-//        req.getSession().setAttribute("postID",post.getPostID());
-
-//        String url = post.getUrl();
-//        Post postSession = null;
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -67,8 +59,6 @@ public class Upload extends HttpServlet {
             sessionObj.beginTransaction();
 
             sessionObj.save(post);
-
-//            postSession = (Post) sessionObj.get(Post.class, Post.class.;
 
             sessionObj.getTransaction().commit();
 
@@ -84,13 +74,6 @@ public class Upload extends HttpServlet {
             }
         }
 
-//        System.out.println("post: "+post.getPostID());
-
-//        req.getSession().setAttribute("postSubmit",post);
-
         resp.sendRedirect("postDetails.jsp");
-
-//        RequestDispatcher dispatcher = req.getRequestDispatcher("postDetails.jsp");
-//        dispatcher.forward(req, resp);
     }
 }
