@@ -32,7 +32,7 @@ public class Upload extends HttpServlet {
         Part filePart = req.getPart("file");
         System.out.println("file: " + filePart);
 
-        String uploadLocation = "C:\\Users\\RaXeL\\IdeaProjects\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
+        String uploadLocation = "E:\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
 
         File uploads = new File(uploadLocation);
 
