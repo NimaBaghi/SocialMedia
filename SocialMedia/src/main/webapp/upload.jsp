@@ -19,7 +19,7 @@
                 const file = document.querySelector('input[type=file]').files[0];
                 const reader = new FileReader();
                 reader.addEventListener("load", function () {
-                // convert image file to base64 string
+                    // convert image file to base64 string
                     preview.src = reader.result;
                 });
                 if (file) {
@@ -27,6 +27,19 @@
                 }
             }
         </script>
+        <br>
+
+        Caption:
+        <br>
+        <textarea name="caption" rows="3" cols="50"></textarea>
+
+        <br>
+        <br>
+
+        Hashtags:
+        <br>
+        <input type="text" name="hashtag" value="#" size="50">
+
         <br>
         <br>
         <input type="submit"/>
