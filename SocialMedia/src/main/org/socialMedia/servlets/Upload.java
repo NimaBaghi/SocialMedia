@@ -3,7 +3,9 @@ package org.socialMedia.servlets;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.socialMedia.entities.Hashtag;
 import org.socialMedia.entities.Post;
+import org.socialMedia.entities.User;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -32,7 +34,15 @@ public class Upload extends HttpServlet {
         Part filePart = req.getPart("file");
         System.out.println("file: " + filePart);
 
-        String uploadLocation = "E:\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
+        String caption = req.getParameter("caption");
+
+        String inputHashtags = req.getParameter("hashtag");
+
+        String [] hashtags = inputHashtags.split("#");
+
+
+
+        String uploadLocation = "C:\\Users\\RaXeL\\IdeaProjects\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
 
         File uploads = new File(uploadLocation);
 
@@ -47,7 +57,10 @@ public class Upload extends HttpServlet {
             Files.copy(input, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
         }
 
-        Post post = new Post(fileName, "", new Date());
+        User user = (User) req.getSession().getAttribute("userDetails");
+        Post post = new Post(fileName, caption, new Date());
+        post.setUser(user);
+
 
         try {
             Configuration configuration = new Configuration();
@@ -57,6 +70,14 @@ public class Upload extends HttpServlet {
             sessionObj = sessionFactoryObj.openSession();
 
             sessionObj.beginTransaction();
+
+            for (int i = 1; i < hashtags.length; i++) {
+                String hashtagText = hashtags[i];
+                Hashtag hashtag = new Hashtag(hashtagText);
+                hashtag.getListOfPosts().add(post);
+                post.getHashtags().add(hashtag);
+                sessionObj.save(hashtag);
+            }
 
             sessionObj.save(post);
 
