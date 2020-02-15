@@ -39,6 +39,7 @@ public class Login extends HttpServlet {
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getUserName().equals(userName)) {
                     if (users.get(i).getPassword().equals(password)) {
+                        req.getSession().setAttribute("userDetails",users.get(i));
                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");
                         requestDispatcher.forward(req, resp);
                     } else {
@@ -48,7 +49,7 @@ public class Login extends HttpServlet {
                     }
                 }
             }
-            
+
             sessionObj.getTransaction().commit();
         } catch (Exception sqlException) {
             if (null != sessionObj.getTransaction()) {
