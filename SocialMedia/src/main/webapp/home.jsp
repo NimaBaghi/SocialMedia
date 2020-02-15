@@ -29,5 +29,8 @@
     <button type="button" onclick='loadXMLDoc()'> Like</button>
 </CENTER>
 <a href="upload.jsp"> Add a post</a>
+<br>
+<a href="search.jsp"> Search</a>
+
 </body>
 </html>
