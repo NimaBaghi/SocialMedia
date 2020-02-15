@@ -19,8 +19,8 @@ public class Hashtag {
     private String text;
 
     @ManyToMany
-    @JoinTable(name = "post_detail",joinColumns = @JoinColumn(name = "POST_ID"),
-            inverseJoinColumns = @JoinColumn(name = "HASHTAG_ID")
+    @JoinTable(name = "post_detail",joinColumns = @JoinColumn(name = "HASHTAG_ID"),
+            inverseJoinColumns = @JoinColumn(name = "POST_ID")
     )
     private Collection<Post> listOfPosts = new ArrayList<Post>();
 
