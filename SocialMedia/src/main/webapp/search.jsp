@@ -10,17 +10,26 @@
         <input type="text" name="search">
         <input type="submit" value="Search">
         <br>
-        <br>
+    </form>
+
+
+    <form method="POST" action="profile">
         <%
             if (request.getAttribute("findUser") != null) {
                 ArrayList<String> userName = (ArrayList<String>) request.getAttribute("userNames");
                 for (int i = 0; i < userName.size(); i++) {
-                    out.println(userName.get(i));%>
+
+        %>
+
+        <input type="submit" value="<%=userName.get(i)%>" name="userFound">
         <br>
+
         <%
                 }
             }
         %>
+
+
     </form>
 </center>
 </body>
