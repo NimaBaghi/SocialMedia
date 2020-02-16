@@ -13,8 +13,13 @@
     <form action="invitation" method="post">
 
         <%= user.getFullName()%>
-
+        <%if (request.getAttribute("added") == null) {%>
         <input type="submit" value="Add Friend">
+        <%
+        } else if (request.getAttribute("added") == "successful") {
+        %>
+        <input type="submit" value="Request Sent" disabled>
+        <%}%>
     </form>
 
 </center>

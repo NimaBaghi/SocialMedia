@@ -23,6 +23,10 @@ public class Friend {
     @Column(name = "STATUS")
     private int status;
 
+    //if status=1;request send from: FROM_ID, to: TO_ID.
+    //if status=2;to: TO_ID accepted the request.
+    //if status=3;to: TO_ID rejected the request.
+
     public Friend() {
     }
 

@@ -17,16 +17,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/profile")
-public class Profile extends HttpServlet {
+@WebServlet("/invitation")
+public class Invitation extends HttpServlet {
     private Session sessionObj;
     private SessionFactory sessionFactoryObj = Upload.sessionFactoryObj;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userFound = req.getParameter("userFound");
-        User toUser = null;
         User fromUser = (User) req.getSession().getAttribute("userDetails");
+        User toUser = (User) req.getSession().getAttribute("userProfile");
+        Friend friend = new Friend(1);
+        friend.setFromID(fromUser);
+        friend.setToID(toUser);
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -36,26 +38,8 @@ public class Profile extends HttpServlet {
 
             sessionObj.beginTransaction();
 
-            Query query = sessionObj.createQuery("from User");
-            List<User> users = query.list();
+            sessionObj.save(friend);
 
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getUserName().equals(userFound)) {
-                    req.getSession().setAttribute("userProfile", users.get(i));
-                    toUser = users.get(i);
-                }
-            }
-            query = sessionObj.createQuery("from Friend ");
-            List<Friend> friends = query.list();
-
-            for (int i = 0; i < friends.size(); i++) {
-                if (toUser.getUserID() == friends.get(i).getToID().getUserID() && fromUser.getUserID() == friends.get(i).getFromID().getUserID()) {
-                    req.setAttribute("added", "successful");
-                }
-            }
-            if (fromUser.getUserID()==toUser.getUserID()){
-                req.setAttribute("added", "self");
-            }
             sessionObj.getTransaction().commit();
 
         } catch (Exception sqlException) {
@@ -63,16 +47,14 @@ public class Profile extends HttpServlet {
                 System.out.println("\n.......Transaction Is Being Rolled Back.......");
                 sessionObj.getTransaction().rollback();
             }
-
             sqlException.printStackTrace();
         } finally {
             if (sessionObj != null) {
                 sessionObj.close();
             }
         }
-
+        req.setAttribute("added","successful");
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("profile.jsp");
         requestDispatcher.forward(req, resp);
-
     }
 }
