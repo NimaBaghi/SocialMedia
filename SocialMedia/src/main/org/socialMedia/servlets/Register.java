@@ -33,14 +33,13 @@ public class Register extends HttpServlet {
 
         if (userName == null || userName.trim().equals("") || fullName == null || fullName.trim().equals("") || password == null || password.trim().equals("")) {
             req.setAttribute("fields", "null");
-            req.setAttribute("uname",userName);
-            req.setAttribute("fname",fullName);
-            req.setAttribute("pass",password);
+            req.setAttribute("uname", userName);
+            req.setAttribute("fname", fullName);
+            req.setAttribute("pass", password);
             req.setAttribute("privacy", pri);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("register.jsp");
             requestDispatcher.forward(req, resp);
-        }
-        else {
+        } else {
 
             User user = new User(userName, fullName, password, privacy);
 
@@ -82,7 +81,7 @@ public class Register extends HttpServlet {
                     sessionObj.close();
                 }
             }
-            req.getSession().setAttribute("register","successful");
+            req.getSession().setAttribute("register", "successful");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
             requestDispatcher.forward(req, resp);
         }

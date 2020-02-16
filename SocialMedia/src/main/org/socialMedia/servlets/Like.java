@@ -25,15 +25,14 @@ public class Like extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         i++;
         resp.getWriter().println(i);
-        User user = (User)req.getSession().getAttribute("userDetails");
-        Post post = new Post("faraz1`123132","faraz",new Date());
-        System.out.println("username: "+user.getUserName());
-        System.out.println("User ID: "+user.getUserID());
+        User user = (User) req.getSession().getAttribute("userDetails");
+        Post post = new Post("faraz1`123132", "faraz", new Date());
+        System.out.println("username: " + user.getUserName());
+        System.out.println("User ID: " + user.getUserID());
 
         LikeDetails like = new LikeDetails();
         like.setUserLiked(user);
         like.setPost(post);
-
 
 
         try {
@@ -61,8 +60,6 @@ public class Like extends HttpServlet {
                 sessionObj.close();
             }
         }
-
-
 
 
     }

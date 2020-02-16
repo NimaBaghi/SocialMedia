@@ -53,7 +53,7 @@ public class Profile extends HttpServlet {
                     req.setAttribute("added", "successful");
                 }
             }
-            if (fromUser.getUserID()==toUser.getUserID()){
+            if (fromUser.getUserID() == toUser.getUserID()) {
                 req.setAttribute("added", "self");
             }
             sessionObj.getTransaction().commit();

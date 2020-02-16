@@ -20,8 +20,8 @@
         <br>
         Profile Privacy:<br>
 
-<%-- Something wrong with this if!!--%>
-        <% if (request.getAttribute("privacy") == "0" ) {%>
+        <%-- Something wrong with this if!!--%>
+        <% if (request.getAttribute("privacy") == "0") {%>
         <input type="radio" name="privacy" value="1"> Public <br>
         <input type="radio" name="privacy" value="0" checked> Private <br>
         <%} else { %>

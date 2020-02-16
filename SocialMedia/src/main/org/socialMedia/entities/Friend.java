@@ -30,7 +30,7 @@ public class Friend {
     public Friend() {
     }
 
-    public Friend(int status){
+    public Friend(int status) {
         this.status = status;
     }
 

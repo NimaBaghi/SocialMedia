@@ -9,8 +9,7 @@
             var url = "like";
             if (window.XMLHttpRequest) {
                 xmlhttp = new XMLHttpRequest();
-            }
-            else {
+            } else {
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
             xmlhttp.onreadystatechange = function () {

@@ -38,8 +38,7 @@ public class Upload extends HttpServlet {
 
         String inputHashtags = req.getParameter("hashtag");
 
-        String [] hashtags = inputHashtags.split("#");
-
+        String[] hashtags = inputHashtags.split("#");
 
 
         String uploadLocation = "C:\\Users\\RaXeL\\IdeaProjects\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";

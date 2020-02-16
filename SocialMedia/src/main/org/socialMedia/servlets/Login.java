@@ -39,11 +39,11 @@ public class Login extends HttpServlet {
             for (int i = 0; i < users.size(); i++) {
                 if (users.get(i).getUserName().equals(userName)) {
                     if (users.get(i).getPassword().equals(password)) {
-                        req.getSession().setAttribute("userDetails",users.get(i));
+                        req.getSession().setAttribute("userDetails", users.get(i));
                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");
                         requestDispatcher.forward(req, resp);
                     } else {
-                        req.setAttribute("password","wrong");
+                        req.setAttribute("password", "wrong");
                         RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
                         requestDispatcher.forward(req, resp);
                     }
@@ -62,7 +62,7 @@ public class Login extends HttpServlet {
                 sessionObj.close();
             }
         }
-        req.setAttribute("username","wrong");
+        req.setAttribute("username", "wrong");
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("login.jsp");
         requestDispatcher.forward(req, resp);
     }

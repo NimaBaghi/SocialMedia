@@ -53,7 +53,7 @@ public class Invitation extends HttpServlet {
                 sessionObj.close();
             }
         }
-        req.setAttribute("added","successful");
+        req.setAttribute("added", "successful");
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("profile.jsp");
         requestDispatcher.forward(req, resp);
     }
