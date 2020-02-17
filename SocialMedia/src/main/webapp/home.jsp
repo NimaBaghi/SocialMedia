@@ -33,7 +33,7 @@
 <br>
 <a href="requestList"> List of request</a>
 <br>
-<%--<a href="requestList"> List of friend</a>--%>
+<a href="friendsList"> List of friend</a>
 
 </body>
 </html>

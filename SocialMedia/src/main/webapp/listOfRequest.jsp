@@ -2,22 +2,23 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>ListOfRequest</title>
+    <title>Requests List</title>
 </head>
 <body>
 <form method="post" action="friendsituation">
     <center>
         <%
-            if (request.getAttribute("userList") != null) {
-                ArrayList<String> userName = (ArrayList<String>) request.getAttribute("userList");%>
+            ArrayList<String> username = (ArrayList<String>) request.getAttribute("userList");
+            if (username.size() != 0) {
+                %>
         <%
-            for (int i = 0; i < userName.size(); i++) {
+            for (int i = 0; i < username.size(); i++) {
         %><br>
-        <input type="submit" value="Accept#<%=userName.get(i)%>" name="accept">
-        <input type="submit" value="Reject#<%=userName.get(i)%>" name="reject">
+        <input type="submit" value="Accept#<%=username.get(i)%>" name="accept">
+        <input type="submit" value="Reject#<%=username.get(i)%>" name="reject">
 
         <%
-            out.println(userName.get(i));
+            out.println(username.get(i));
         %><br><%
             }
         } else {
