@@ -30,6 +30,10 @@
 <a href="upload.jsp"> Add a post</a>
 <br>
 <a href="search.jsp"> Search</a>
+<br>
+<a href="requestList"> List of request</a>
+<br>
+<%--<a href="requestList"> List of friend</a>--%>
 
 </body>
 </html>

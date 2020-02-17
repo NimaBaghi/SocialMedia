@@ -14,18 +14,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/requestList")
-public class ListOfRequest extends HttpServlet {
+@WebServlet("/accept")
+public class Accept extends HttpServlet {
     private Session sessionObj;
     private SessionFactory sessionFactoryObj = Upload.sessionFactoryObj;
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        User fromUser = (User) req.getSession().getAttribute("userDetails");
+        String acceptUsername = req.getParameter("accept");
+        String[] username = acceptUsername.split("#");
+        Friend friend = new Friend();
+        friend.setToID(fromUser);
 
-        User me = (User) req.getSession().getAttribute("userDetails");
+
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -35,15 +39,26 @@ public class ListOfRequest extends HttpServlet {
 
             sessionObj.beginTransaction();
 
-            Query query = sessionObj.createQuery("from Friend ");
-            List<Friend> friends = query.list();
-            ArrayList<String> userNameList = new ArrayList<>();
-            for (int i = 0; i < friends.size(); i++) {
-                if (me.getUserID() == friends.get(i).getToID().getUserID() && friends.get(i).getStatus() == 1) {
-                    userNameList.add(friends.get(i).getFromID().getUserName());
+            Query query = sessionObj.createQuery("from User ");
+            List<User> users = query.list();
+
+            for (int i = 0; i < users.size(); i++) {
+                if (users.get(i).getUserName().equals(username[1])) {
+                    friend.setFromID(users.get(i));
                 }
             }
-            req.setAttribute("userList", userNameList);
+            query = sessionObj.createQuery("from Friend ");
+            List<Friend> friends = query.list();
+            for (int i = 0; i < friends.size(); i++) {
+                if (friends.get(i).getFromID().getUserID() == friend.getFromID().getUserID()) {
+                    if (friends.get(i).getToID().getUserID() == friend.getToID().getUserID()) {
+                        friend.setFriendID(friends.get(i).getFriendID());
+                    }
+                }
+            }
+            friend.setStatus(2);
+            sessionObj.update(friend);
+
             sessionObj.getTransaction().commit();
 
         } catch (Exception sqlException) {
@@ -51,14 +66,13 @@ public class ListOfRequest extends HttpServlet {
                 System.out.println("\n.......Transaction Is Being Rolled Back.......");
                 sessionObj.getTransaction().rollback();
             }
-
             sqlException.printStackTrace();
         } finally {
             if (sessionObj != null) {
                 sessionObj.close();
             }
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("listOfRequest.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("home.jsp");
         requestDispatcher.forward(req, resp);
     }
 }
