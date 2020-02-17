@@ -52,7 +52,22 @@ public class Profile extends HttpServlet {
                 if (toUser.getUserID() == friends.get(i).getToID().getUserID() && fromUser.getUserID() == friends.get(i).getFromID().getUserID()) {
                     req.setAttribute("added", "successful");
                 }
+
+                if (friends.get(i).getFromID().getUserID() == toUser.getUserID() && friends.get(i).getToID().getUserID() == fromUser.getUserID() && friends.get(i).getStatus() == 1) {
+                    req.setAttribute("added", "requested");
+                }
+
+                if (toUser.getUserID() == friends.get(i).getToID().getUserID() && fromUser.getUserID() == friends.get(i).getFromID().getUserID() && friends.get(i).getStatus() == 3) {
+                    req.setAttribute("added", "requestRejected");
+                }
+
+                if (friends.get(i).getFromID().getUserID() == fromUser.getUserID() && friends.get(i).getToID().getUserID() == toUser.getUserID() && friends.get(i).getStatus() == 2) {
+                    req.setAttribute("added", "friends");
+                } else if (friends.get(i).getFromID().getUserID() == toUser.getUserID() && friends.get(i).getToID().getUserID() == fromUser.getUserID() && friends.get(i).getStatus() == 2) {
+                    req.setAttribute("added", "friends");
+                }
             }
+
             if (fromUser.getUserID() == toUser.getUserID()) {
                 req.setAttribute("added", "self");
             }

@@ -13,13 +13,21 @@
     <form action="invitation" method="post">
 
         <%= user.getFullName()%>
-        <%if (request.getAttribute("added") == null) {%>
+        <%if (request.getAttribute("added") == null || request.getAttribute("added") == "requestRejected") {%>
         <input type="submit" value="Add Friend">
         <%
         } else if (request.getAttribute("added") == "successful") {
         %>
         <input type="submit" value="Request Sent" disabled>
-        <%}%>
+        <%
+        } else if (request.getAttribute("added") == "friends") {
+        %>
+        <input type="submit" value="Friends" disabled>
+        <%
+        } else if (request.getAttribute("added") == "requested") {
+        %>
+        <input type="submit" formaction="requestList" formmethod="get" value="<%=user.getUserName()%> Requeted You">
+        <% } %>
     </form>
 
 </center>

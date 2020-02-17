@@ -38,8 +38,23 @@ public class Invitation extends HttpServlet {
 
             sessionObj.beginTransaction();
 
-            sessionObj.save(friend);
+            Query query = sessionObj.createQuery("from Friend");
+            List<Friend> friends = query.list();
+            boolean rejected = false;
+            for (int i = 0; i < friends.size(); i++) {
+                if (friends.get(i).getFromID().getUserID() == fromUser.getUserID() && friends.get(i).getToID().getUserID() == toUser.getUserID() && friends.get(i).getStatus() == 3) {
+                    rejected = true;
+                }
+            }
+            if (!rejected) {
+                sessionObj.save(friend);
+            } else if (rejected) {
+                Query query1 = sessionObj.createQuery("Update Friend Set status = 1 Where fromID =:fID AND toID =:tID ");
+                query1.setParameter("fID", friend.getFromID());
+                query1.setParameter("tID", friend.getToID());
 
+                query1.executeUpdate();
+            }
             sessionObj.getTransaction().commit();
 
         } catch (Exception sqlException) {
