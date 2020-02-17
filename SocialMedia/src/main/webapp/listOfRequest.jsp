@@ -5,7 +5,7 @@
     <title>ListOfRequest</title>
 </head>
 <body>
-<form method="post" action="accept">
+<form method="post" action="friendsituation">
     <center>
         <%
             if (request.getAttribute("userList") != null) {
@@ -14,7 +14,7 @@
             for (int i = 0; i < userName.size(); i++) {
         %><br>
         <input type="submit" value="Accept#<%=userName.get(i)%>" name="accept">
-        <input type="submit" formaction="" formmethod="post" value="Reject#<%=userName.get(i)%>" name="reject">
+        <input type="submit" value="Reject#<%=userName.get(i)%>" name="reject">
 
         <%
             out.println(userName.get(i));

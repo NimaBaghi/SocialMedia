@@ -38,6 +38,7 @@ public class ListOfRequest extends HttpServlet {
             Query query = sessionObj.createQuery("from Friend ");
             List<Friend> friends = query.list();
             ArrayList<String> userNameList = new ArrayList<>();
+
             for (int i = 0; i < friends.size(); i++) {
                 if (me.getUserID() == friends.get(i).getToID().getUserID() && friends.get(i).getStatus() == 1) {
                     userNameList.add(friends.get(i).getFromID().getUserName());

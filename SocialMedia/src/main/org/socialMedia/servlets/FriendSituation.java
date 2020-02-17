@@ -4,6 +4,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.sql.Update;
 import org.socialMedia.entities.Friend;
 import org.socialMedia.entities.User;
 
@@ -16,48 +17,62 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/accept")
-public class Accept extends HttpServlet {
+@WebServlet("/friendsituation")
+public class FriendSituation extends HttpServlet {
     private Session sessionObj;
     private SessionFactory sessionFactoryObj = Upload.sessionFactoryObj;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User fromUser = (User) req.getSession().getAttribute("userDetails");
-        String acceptUsername = req.getParameter("accept");
-        String[] username = acceptUsername.split("#");
+        String[] accUsername = null;
+        String[] rejUsername = null;
+        if (req.getParameter("accept") != null) {
+            String acceptUsername = req.getParameter("accept");
+            accUsername = acceptUsername.split("#");
+        } else {
+            String rejectUsername = req.getParameter("reject");
+            rejUsername = rejectUsername.split("#");
+        }
         Friend friend = new Friend();
         friend.setToID(fromUser);
-
 
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
-
             sessionFactoryObj = configuration.buildSessionFactory();
             sessionObj = sessionFactoryObj.openSession();
-
             sessionObj.beginTransaction();
 
             Query query = sessionObj.createQuery("from User ");
             List<User> users = query.list();
 
-            for (int i = 0; i < users.size(); i++) {
-                if (users.get(i).getUserName().equals(username[1])) {
-                    friend.setFromID(users.get(i));
-                }
-            }
-            query = sessionObj.createQuery("from Friend ");
-            List<Friend> friends = query.list();
-            for (int i = 0; i < friends.size(); i++) {
-                if (friends.get(i).getFromID().getUserID() == friend.getFromID().getUserID()) {
-                    if (friends.get(i).getToID().getUserID() == friend.getToID().getUserID()) {
-                        friend.setFriendID(friends.get(i).getFriendID());
+            if (req.getParameter("accept") != null) {
+                for (int i = 0; i < users.size(); i++) {
+                    if (users.get(i).getUserName().equals(accUsername[1])) {
+                        friend.setFromID(users.get(i));
                     }
                 }
+
+                Query query1 = sessionObj.createQuery("Update Friend Set status = 2 Where fromID =:fID AND toID =:tID ");
+                query1.setParameter("fID", friend.getFromID());
+                query1.setParameter("tID", friend.getToID());
+
+                query1.executeUpdate();
             }
-            friend.setStatus(2);
-            sessionObj.update(friend);
+            else {
+                for (int i = 0; i < users.size(); i++) {
+                    if (users.get(i).getUserName().equals(rejUsername[1])) {
+                        friend.setFromID(users.get(i));
+                    }
+                }
+
+                Query query1 = sessionObj.createQuery("Update Friend Set status = 3 Where fromID =:fID AND toID =:tID ");
+                query1.setParameter("fID", friend.getFromID());
+                query1.setParameter("tID", friend.getToID());
+
+                query1.executeUpdate();
+            }
 
             sessionObj.getTransaction().commit();
 
