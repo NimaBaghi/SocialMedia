@@ -6,6 +6,16 @@
 <body>
 
 <center>
+    <button id="goHome">Back to home</button>
+    <script type="text/javascript">
+        document.getElementById("goHome").onclick = function () {
+            location.href = "home.jsp";
+        };
+    </script>
+
+    <br>
+    <br>
+
     <form action="upload" method="post" enctype="multipart/form-data">
         <input type="file" name="file" onchange="previewFile()"><br>
         <br>

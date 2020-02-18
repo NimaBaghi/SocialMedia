@@ -4,12 +4,24 @@
 <html>
 <% User user = (User) request.getSession().getAttribute("userProfile"); %>
 <head>
-
-    <title><%= user.getUserName() %>
-    </title>
+    <title><%= user.getUserName() %></title>
 </head>
 <body>
 <center>
+    <button id="goHome">Home</button>
+    <button id="search">Search</button>
+
+    <script type="text/javascript">
+        document.getElementById("goHome").onclick = function () {
+            location.href = "home.jsp";
+        };
+        document.getElementById("search").onclick = function () {
+            location.href = "search.jsp";
+        };
+    </script>
+    <br>
+    <br>
+
     <form action="invitation" method="post">
 
         <%= user.getFullName()%>
@@ -29,7 +41,6 @@
         <input type="submit" formaction="requestList" formmethod="get" value="<%=user.getUserName()%> Requeted You">
         <% } %>
     </form>
-
 </center>
 </body>
 </html>

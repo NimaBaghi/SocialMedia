@@ -6,12 +6,21 @@
 </head>
 <body>
 <center>
+    <button id="goHome">Home</button>
+
+    <script type="text/javascript">
+        document.getElementById("goHome").onclick = function () {
+            location.href = "home.jsp";
+        };
+    </script>
+    <br>
+    <br>
+
     <form action="search" method="post">
         <input type="text" name="search">
         <input type="submit" value="Search">
         <br>
     </form>
-
 
     <form method="POST" action="profile">
         <%
@@ -28,7 +37,6 @@
                 }
             }
         %>
-
 
     </form>
 </center>

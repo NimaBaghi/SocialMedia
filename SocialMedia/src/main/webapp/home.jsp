@@ -23,17 +23,32 @@
     </script>
 </head>
 <body>
-<CENTER>
+<center>
+    <button id="addPost">Add a post</button>
+    <button id="search">Search</button>
+    <button id="rList">Requests List</button>
+    <button id="fList">Friends List</button>
+
+    <script type="text/javascript">
+        document.getElementById("addPost").onclick = function () {
+            location.href = "upload.jsp";
+        };
+        document.getElementById("search").onclick = function () {
+            location.href = "search.jsp";
+        };
+        document.getElementById("rList").onclick = function () {
+            location.href = "requestList";
+        };
+        document.getElementById("fList").onclick = function () {
+            location.href = "friendsList";
+        };
+    </script>
+</center>
+
+<br>
+<center>
     <div id="myDiv"></div>
     <button type="button" onclick='loadXMLDoc()'> Like</button>
-</CENTER>
-<a href="upload.jsp"> Add a post</a>
-<br>
-<a href="search.jsp"> Search</a>
-<br>
-<a href="requestList"> List of request</a>
-<br>
-<a href="friendsList"> List of friend</a>
-
+</center>
 </body>
 </html>

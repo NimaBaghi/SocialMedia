@@ -6,13 +6,31 @@
 </head>
 <body>
 <center>
-    <%ArrayList<String> username = (ArrayList<String>) request.getAttribute("userFriends");
+    <button id="goHome">Home</button>
+    <button id="rList">Requests List</button>
+
+    <script type="text/javascript">
+        document.getElementById("goHome").onclick = function () {
+            location.href = "home.jsp";
+        };
+        document.getElementById("rList").onclick = function () {
+            location.href = "requestList";
+        };
+    </script>
+
+    <br>
+    <br>
+
+    <%
+        ArrayList<String> username = (ArrayList<String>) request.getAttribute("userFriends");
         if (username.size() != 0) {
-            %>
+    %>
+    Friends:
+    <br>
     <%
         for (int i = 0; i < username.size(); i++) {
     %><br><%
-    out.println(username.get(i));
+            out.println(username.get(i));
     %><br><%
         }
     } else {

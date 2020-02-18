@@ -10,6 +10,16 @@
 </head>
 <body>
 <center>
+    <button id="goHome">Back to home</button>
+    <script type="text/javascript">
+        document.getElementById("goHome").onclick = function () {
+            location.href = "home.jsp";
+        };
+    </script>
+
+    <br>
+    <br>
+
     Post successfuly added.
 </center>
 </body>

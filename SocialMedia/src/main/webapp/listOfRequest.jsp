@@ -5,12 +5,28 @@
     <title>Requests List</title>
 </head>
 <body>
+<center>
+    <button id="goHome">Home</button>
+    <button id="fList">Friends List</button>
+
+    <script type="text/javascript">
+        document.getElementById("goHome").onclick = function () {
+            location.href = "home.jsp";
+        };
+        document.getElementById("fList").onclick = function () {
+            location.href = "friendsList";
+        };
+    </script>
+
+    <br>
+    <br>
+</center>
 <form method="post" action="friendsituation">
     <center>
         <%
             ArrayList<String> username = (ArrayList<String>) request.getAttribute("userList");
             if (username.size() != 0) {
-                %>
+        %>
         <%
             for (int i = 0; i < username.size(); i++) {
         %><br>
