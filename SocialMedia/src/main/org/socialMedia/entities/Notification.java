@@ -30,8 +30,8 @@ public class Notification {
     private Comment commentNotification;
 
     @OneToOne
-    @JoinColumn(name = "FRIEND_ID")
-    private Friend friendStatus;
+    @JoinColumn(name = "FROM_ID")
+    private User fromID;
 
 
     public Notification(int readed) {
@@ -90,11 +90,11 @@ public class Notification {
         this.commentNotification = commentNotification;
     }
 
-    public Friend getFriendStatus() {
-        return friendStatus;
+    public User getFromID() {
+        return fromID;
     }
 
-    public void setFriendStatus(Friend friendStatus) {
-        this.friendStatus = friendStatus;
+    public void setFromID(User fromID) {
+        this.fromID = fromID;
     }
 }
