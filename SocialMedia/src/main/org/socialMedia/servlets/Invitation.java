@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.socialMedia.entities.Friend;
+import org.socialMedia.entities.Notification;
 import org.socialMedia.entities.User;
 
 import javax.servlet.RequestDispatcher;
@@ -26,6 +27,7 @@ public class Invitation extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User fromUser = (User) req.getSession().getAttribute("userDetails");
         User toUser = (User) req.getSession().getAttribute("userProfile");
+        Notification notification = new Notification();
         Friend friend = new Friend(1);
         friend.setFromID(fromUser);
         friend.setToID(toUser);
@@ -55,6 +57,12 @@ public class Invitation extends HttpServlet {
 
                 query1.executeUpdate();
             }
+            //NotificationReaded=0 ==> Unread
+            //NotificationReaded=1 ==> Have read
+            notification.setReaded(0);
+            notification.setFromID(friend.getFromID());
+            notification.setUserNotification(toUser);
+            sessionObj.save(notification);
             sessionObj.getTransaction().commit();
 
         } catch (Exception sqlException) {
