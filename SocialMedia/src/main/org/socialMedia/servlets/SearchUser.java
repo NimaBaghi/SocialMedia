@@ -16,14 +16,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet("/search")
-public class Search extends HttpServlet {
+@WebServlet("/searchuser")
+public class SearchUser extends HttpServlet {
     private Session sessionObj;
     private SessionFactory sessionFactoryObj = Upload.sessionFactoryObj;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String userName = req.getParameter("search");
+        String userName = req.getParameter("searchUser");
         if (userName == null || userName.trim().equals("")) {
             req.setAttribute("fields", "null");
             req.setAttribute("uname", userName);

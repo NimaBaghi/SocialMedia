@@ -49,8 +49,8 @@
         <br>
         <br>
         Profile Privacy:<br>
-        <input type="radio" name="privacy" value="1" checked> Public <br>
-        <input type="radio" name="privacy" value="0"> Private <br>
+        <input type="radio" name="privacy" value="1"> Public <br>
+        <input type="radio" name="privacy" value="0" checked> Private <br>
         <br>
         <br>
         <input type="submit" value="Sign up"><br>

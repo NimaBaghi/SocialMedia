@@ -17,7 +17,6 @@
     <br>
 
 
-
     <form action="searchuser" method="post">
         <input type="text" name="searchUser">
         <input type="submit" value="Search User">
@@ -38,8 +37,8 @@
         Users found:
         <br>
         <%
-                ArrayList<String> userName = (ArrayList<String>) request.getAttribute("userNames");
-                for (int i = 0; i < userName.size(); i++) {
+            ArrayList<String> userName = (ArrayList<String>) request.getAttribute("userNames");
+            for (int i = 0; i < userName.size(); i++) {
 
         %>
 
@@ -56,12 +55,12 @@
 
         <%
             if (request.getAttribute("findhashtag") != null) {
-                %>
+        %>
         Hashtags found:
         <br>
         <%
-                ArrayList<String> hashtags = (ArrayList<String>) request.getAttribute("hashtags");
-                for (int i = 0; i < hashtags.size(); i++) {
+            ArrayList<String> hashtags = (ArrayList<String>) request.getAttribute("hashtags");
+            for (int i = 0; i < hashtags.size(); i++) {
 
         %>
 
