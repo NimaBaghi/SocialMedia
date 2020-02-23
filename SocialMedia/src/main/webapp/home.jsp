@@ -56,6 +56,7 @@
             }
             sessionObj.getTransaction().commit();
     %>
+    <button id="mypro">My Profile</button>
     <button id="addPost">Add a post</button>
     <button id="search">Search</button>
     <button id="rList">Requests List</button>
@@ -89,6 +90,9 @@
         };
         document.getElementById("notify").onclick = function () {
             location.href = "notif";
+        };
+        document.getElementById("mypro").onclick = function () {
+            location.href = "myProfile.jsp";
         };
     </script>
 </center>
