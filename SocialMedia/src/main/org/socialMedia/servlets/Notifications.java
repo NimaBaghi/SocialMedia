@@ -37,11 +37,11 @@ public class Notifications extends HttpServlet {
 
             Query query = sessionObj.createQuery("from Notification");
             List<Notification> notificationList = query.list();
-            ArrayList<Integer> userNotifations = new ArrayList<>();
+            ArrayList<Notification> hasNotifications = new ArrayList<>();
 
             for (int i = 0; i < notificationList.size(); i++) {
                 if (notificationList.get(i).getUserNotification().getUserID() == me.getUserID()) {
-                    userNotifations.add(notificationList.get(i).getFromID().getUserID());
+                    hasNotifications.add(notificationList.get(i));
 
                     Query query1 = sessionObj.createQuery("Update Notification Set readed = 1 Where fromID =:fID AND userNotification =:tID ");
                     query1.setParameter("fID", notificationList.get(i).getFromID());
@@ -49,7 +49,7 @@ public class Notifications extends HttpServlet {
                     query1.executeUpdate();
                 }
             }
-            req.setAttribute("userNotifications", userNotifations);
+            req.setAttribute("userNotifications", hasNotifications);
             sessionObj.getTransaction().commit();
         } catch (Exception sqlException) {
             if (null != sessionObj.getTransaction()) {
