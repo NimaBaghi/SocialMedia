@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.socialMedia.entities.Hashtag;
+import org.socialMedia.entities.Post;
 import org.socialMedia.entities.User;
 
 import javax.servlet.RequestDispatcher;
@@ -36,11 +37,18 @@ public class HashtagPrepare extends HttpServlet {
             Query query = sessionObj.createQuery("from Hashtag");
             List<Hashtag> hashtags = query.list();
 
+            Hashtag clicked = null;
             for (int i = 0; i < hashtags.size(); i++) {
                 if (hashtags.get(i).getText().equals(hashtagFound)) {
                     req.setAttribute("hashtagClicked", hashtags.get(i));
+                    clicked = hashtags.get(i);
                 }
             }
+            Query query1 = sessionObj.createQuery("select p from Post p inner join p.hashtags h where h.text =:hashtext");
+            query1.setParameter("hashtext", clicked.getText());
+            List<Post> postsForHashtag = query1.list();
+
+            req.setAttribute("hashtagPosts", postsForHashtag);
 
             sessionObj.getTransaction().commit();
         } catch (Exception sqlException) {

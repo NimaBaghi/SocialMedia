@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @WebServlet("/searchhashtag")
@@ -43,21 +44,26 @@ public class SearchHashtag extends HttpServlet {
                 sessionObj.beginTransaction();
 
                 User user = (User) req.getSession().getAttribute("userDetails");
-                String searchHashtag = "select distinct h from Friend f, User u inner join u.post p inner join p.hashtags h where u.profilePrivacy = 1 or (((p.user = f.fromID and f.toID =:meID) or (p.user = f.toID and f.fromID =:meID)) and f.status = 2) or p.user =:meID";
-                Query query1 = sessionObj.createQuery(searchHashtag);
+                String searchHashtagQuery = "select distinct h from Friend f, User u inner join u.post p inner join p.hashtags h where u.profilePrivacy = 1 or (((p.user = f.fromID and f.toID =:meID) or (p.user = f.toID and f.fromID =:meID)) and f.status = 2) or p.user =:meID";
+                Query query1 = sessionObj.createQuery(searchHashtagQuery);
 
                 query1.setParameter("meID", user);
 
                 List<Hashtag> hashtags = query1.list();
 
-                ArrayList<String> searchhashtag = new ArrayList<>();
+                ArrayList<String> searchHashtags = new ArrayList<>();
                 for (int i = 0; i < hashtags.size(); i++) {
                     if (hashtags.get(i).getText().contains(hashtag)) {
-                        searchhashtag.add(hashtags.get(i).getText());
+                        searchHashtags.add(hashtags.get(i).getText());
                         req.setAttribute("findhashtag", "taken");
-                        req.setAttribute("hashtags", searchhashtag);
                     }
                 }
+
+                LinkedHashSet<String> removeDuplicates = new LinkedHashSet<>(searchHashtags);
+                ArrayList<String> hashtagsWithoutDuplicates = new ArrayList<>(removeDuplicates);
+
+                req.setAttribute("hashtags", hashtagsWithoutDuplicates);
+                
                 sessionObj.getTransaction().commit();
 
             } catch (Exception sqlException) {
