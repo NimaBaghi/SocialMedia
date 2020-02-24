@@ -1,5 +1,6 @@
 package org.socialMedia.servlets;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -14,27 +15,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 @WebServlet("/like")
 public class Like extends HttpServlet {
-    private static int i = 0;
+    private static int i = 1;
     public static Session sessionObj;
     public static SessionFactory sessionFactoryObj;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        i++;
-        resp.getWriter().println(i);
         User user = (User) req.getSession().getAttribute("userDetails");
-        Post post = new Post("faraz1`123132", "faraz", new Date());
-        System.out.println("username: " + user.getUserName());
-        System.out.println("User ID: " + user.getUserID());
-
+        System.out.println(req.getParameter("postID"));
+        String stringPostID = req.getParameter("postID");
+        int postID = Integer.parseInt(stringPostID);
         LikeDetails like = new LikeDetails();
         like.setUserLiked(user);
-        like.setPost(post);
-
-
+        System.out.println("username: " + user.getUserName());
+        System.out.println("User ID: " + user.getUserID());
+        System.out.println(req.getSession().getAttribute("faraz"));
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -43,8 +42,23 @@ public class Like extends HttpServlet {
             sessionObj = sessionFactoryObj.openSession();
 
             sessionObj.beginTransaction();
+            Query query1 = sessionObj.createQuery("from Post ");
+            List<Post> posts = query1.list();
 
-            sessionObj.save(post);
+            Query query2 = sessionObj.createQuery("from LikeDetails where post=:pD");
+            for (int i = 0; i < posts.size(); i++) {
+                if (postID == posts.get(i).getPostID()) {
+                    query2.setParameter("pD", posts.get(i));
+                }
+            }
+            List<LikeDetails> likeDetails = query2.list();
+            i = likeDetails.size() + 1;
+            for (int i = 0; i < posts.size(); i++) {
+                if (postID == posts.get(i).getPostID()) {
+                    like.setPost(posts.get(i));
+                }
+            }
+            resp.getWriter().println(i);
             sessionObj.save(like);
 
             sessionObj.getTransaction().commit();
@@ -60,7 +74,5 @@ public class Like extends HttpServlet {
                 sessionObj.close();
             }
         }
-
-
     }
 }
