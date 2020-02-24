@@ -45,7 +45,7 @@
         <% } %>
     </form>
 
-    <% List<Post> userPo = (List<Post>) request.getAttribute("usersPosts"); %>
+    <% List<Post> userPo = (List<Post>) request.getSession().getAttribute("usersPosts"); %>
 
     <% user.getUserName(); %> Posted:
     <br>

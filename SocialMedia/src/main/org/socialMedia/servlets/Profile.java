@@ -77,7 +77,7 @@ public class Profile extends HttpServlet {
             query1.setParameter("userpro", toUser);
             List<Post> userPosts = query1.list();
 
-            req.setAttribute("usersPosts", userPosts);
+            req.getSession().setAttribute("usersPosts", userPosts);
 
             sessionObj.getTransaction().commit();
 
