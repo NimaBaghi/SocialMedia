@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.socialMedia.entities.Friend;
+import org.socialMedia.entities.Post;
 import org.socialMedia.entities.User;
 
 import javax.servlet.RequestDispatcher;
@@ -71,6 +72,13 @@ public class Profile extends HttpServlet {
             if (fromUser.getUserID() == toUser.getUserID()) {
                 req.setAttribute("added", "self");
             }
+
+            Query query1 = sessionObj.createQuery("select p from User u inner join u.post p where p.user =:userpro");
+            query1.setParameter("userpro", toUser);
+            List<Post> userPosts = query1.list();
+
+            req.setAttribute("usersPosts", userPosts);
+
             sessionObj.getTransaction().commit();
 
         } catch (Exception sqlException) {
@@ -89,5 +97,10 @@ public class Profile extends HttpServlet {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("profile.jsp");
         requestDispatcher.forward(req, resp);
 
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doPost(req, resp);
     }
 }

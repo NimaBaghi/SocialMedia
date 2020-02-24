@@ -1,10 +1,13 @@
 <%@ page import="org.socialMedia.entities.User" %>
+<%@ page import="org.socialMedia.entities.Post" %>
+<%@ page import="java.util.List" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <% User user = (User) request.getSession().getAttribute("userProfile"); %>
 <head>
-    <title><%= user.getUserName() %></title>
+    <title><%= user.getUserName() %>
+    </title>
 </head>
 <body>
 <center>
@@ -41,6 +44,21 @@
         <input type="submit" formaction="requestList" formmethod="get" value="<%=user.getUserName()%> Requeted You">
         <% } %>
     </form>
+
+    <% List<Post> userPo = (List<Post>) request.getAttribute("usersPosts"); %>
+
+    <% user.getUserName(); %> Posted:
+    <br>
+    <% for (int i = 0; i < userPo.size(); i++) {
+        String url = "images/" + userPo.get(i).getUrl();
+    %>
+
+    <br>
+    <br>
+
+    <img src="<%= url %>" height="800" width="800">
+
+    <% } %>
 </center>
 </body>
 </html>
