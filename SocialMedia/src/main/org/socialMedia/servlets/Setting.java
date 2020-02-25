@@ -31,12 +31,12 @@ public class Setting extends HttpServlet {
         User user = (User) req.getSession().getAttribute("userDetails");
 
         String uploadLocation = "";
-        String fileName = "profilepicture" + ".jpg";
+        String fileName = "profilepicture.jpg";
         if (req.getPart("file") != null) {
             Part filePart = req.getPart("file");
             System.out.println("file: " + filePart);
 
-            uploadLocation = "C:\\Users\\RaXeL\\IdeaProjects\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
+            uploadLocation = "E:\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
             uploadLocation = uploadLocation + "\\" + user.getUserID();
 
             File uploads = new File(uploadLocation);
@@ -55,7 +55,7 @@ public class Setting extends HttpServlet {
         int privacy = Integer.parseInt(pri); //private = 0, public = 1
         user.setProfilePrivacy(privacy);
 
-        String loc = uploadLocation+"\\"+fileName;
+        String loc = "/images/" + user.getUserID() + "/" + fileName;
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -65,18 +65,17 @@ public class Setting extends HttpServlet {
 
             sessionObj.beginTransaction();
 
-            String queryString ="";
-            if(req.getPart("file") == null){
-                queryString ="Update User Set profilePrivacy =:profileprivacy Where userID =:uID AND userName =:username";
-            }
-            else{
+            String queryString = "";
+            if (req.getPart("file") == null) {
+                queryString = "Update User Set profilePrivacy =:profileprivacy Where userID =:uID AND userName =:username";
+            } else {
                 queryString = "Update User Set profilePrivacy =:privacy, profilePicture =:pictureurl Where userID =:uID AND userName =:username";
             }
             Query query = sessionObj.createQuery(queryString);
             query.setParameter("uID", user.getUserID());
             query.setParameter("username", user.getUserName());
             query.setParameter("privacy", privacy);
-            if(req.getPart("file") != null) {
+            if (req.getPart("file") != null) {
                 query.setParameter("pictureurl", loc);
                 user.setProfilePicture(loc);
             }
