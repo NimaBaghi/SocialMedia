@@ -68,7 +68,7 @@ public class Setting extends HttpServlet {
 
             String queryString = "";
             if (fileSize) {
-                queryString = "Update User Set profilePrivacy =:profileprivacy Where userID =:uID AND userName =:username";
+                queryString = "Update User Set profilePrivacy =:privacy Where userID =:uID AND userName =:username";
             } else {
                 queryString = "Update User Set profilePrivacy =:privacy, profilePicture =:pictureurl Where userID =:uID AND userName =:username";
             }
@@ -76,7 +76,7 @@ public class Setting extends HttpServlet {
             query.setParameter("uID", user.getUserID());
             query.setParameter("username", user.getUserName());
             query.setParameter("privacy", privacy);
-            if (req.getPart("file") != null) {
+            if (!fileSize) {
                 query.setParameter("pictureurl", loc);
                 user.setProfilePicture(loc);
             }

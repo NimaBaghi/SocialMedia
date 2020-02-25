@@ -10,12 +10,15 @@
 <body>
 <center>
     <button id="goHome">Home</button>
-    <br>
     <script type="text/javascript">
         document.getElementById("goHome").onclick = function () {
             location.href = "home.jsp";
         };
     </script>
+    <br>
+    <br>
+    Comments:
+    <br>
     <%
         ArrayList<Comment> comments = (ArrayList<Comment>) request.getAttribute("commentList");
         for (int i = 0; i < comments.size(); i++) {
@@ -26,8 +29,9 @@
     <br>
     <% }%>
     <form method="post" action="comm">
-        <input type="text" name="com">
-        <input type="submit">
+        <textarea name="com" rows="2" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Send">
     </form>
 </center>
 </body>

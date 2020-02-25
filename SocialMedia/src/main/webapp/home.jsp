@@ -110,7 +110,7 @@
         for (int i = 0; i < listOfPosts.size(); i++) {
     %>
     <p><% out.print(listOfPosts.get(i).getUser().getUserName()); %> Posted:</p>
-    <% String url = "images/" + listOfPosts.get(i).getUrl();%>
+    <% String url = listOfPosts.get(i).getUrl();%>
     <img src="<%= url %>" width="800" height="800"/>
     <br>
 

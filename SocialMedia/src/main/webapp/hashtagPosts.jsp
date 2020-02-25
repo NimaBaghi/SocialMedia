@@ -29,8 +29,9 @@
 
     <br>
     <br>
+    <br>
 
-    <% String url = "images/" + postsFound.get(i).getUrl(); %>
+    <% String url = postsFound.get(i).getUrl(); %>
 
     <%out.print(postsFound.get(i).getUser().getUserName()); %>  Posted:
 
@@ -38,6 +39,10 @@
     <br>
 
     <img src="<%= url %>" height="800" width="800">
+    <br>
+    <br>
+
+    Caption: <% out.print(postsFound.get(i).getCaption()); %>
     <% } %>
 
 </center>
