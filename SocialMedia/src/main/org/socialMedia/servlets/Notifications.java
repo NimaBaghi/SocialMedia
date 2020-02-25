@@ -41,12 +41,21 @@ public class Notifications extends HttpServlet {
 
             for (int i = 0; i < notificationList.size(); i++) {
                 if (notificationList.get(i).getUserNotification().getUserID() == me.getUserID()) {
-                    hasNotifications.add(notificationList.get(i));
-
-                    Query query1 = sessionObj.createQuery("Update Notification Set readed = 1 Where fromID =:fID AND userNotification =:tID ");
-                    query1.setParameter("fID", notificationList.get(i).getFromID());
-                    query1.setParameter("tID", notificationList.get(i).getUserNotification());
-                    query1.executeUpdate();
+                    if (notificationList.get(i).getFromID() != null) {
+                        Query query1 = sessionObj.createQuery("Update Notification Set readed = 1 Where fromID =:fID AND userNotification =:tID ");
+                        query1.setParameter("fID", notificationList.get(i).getFromID());
+                        query1.setParameter("tID", notificationList.get(i).getUserNotification());
+                        query1.executeUpdate();
+                        hasNotifications.add(notificationList.get(i));
+                    }
+                    if (notificationList.get(i).getCommentNotification() != null) {
+                        Query query2 = sessionObj.createQuery("Update Notification Set readed = 1 Where commentNotification=:cmndID and postNotification=:post and userNotification =:tID ");
+                        query2.setParameter("cmndID", notificationList.get(i).getCommentNotification());
+                        query2.setParameter("post", notificationList.get(i).getPostNotification());
+                        query2.setParameter("tID", notificationList.get(i).getUserNotification());
+                        query2.executeUpdate();
+                        hasNotifications.add(notificationList.get(i));
+                    }
                 }
             }
             req.setAttribute("userNotifications", hasNotifications);

@@ -2,6 +2,7 @@
 <%@ page import="org.socialMedia.servlets.Notifications" %>
 <%@ page import="org.socialMedia.entities.Friend" %>
 <%@ page import="org.socialMedia.entities.Notification" %>
+<%@ page import="org.socialMedia.entities.User" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -22,8 +23,8 @@
     </script>
     <br>
     <br>
-
     <%
+        User me = (User) request.getSession().getAttribute("userDetails");
         ArrayList<Notification> hasNotifications = (ArrayList<Notification>) request.getAttribute("userNotifications");
         if (hasNotifications.size() != 0) {
     %>
@@ -32,16 +33,17 @@
     <%
         for (int i = hasNotifications.size() - 1; i >= 0; i--) {
     %><br><%
-    if (hasNotifications.get(i).getFromID().getUserName() != null) {
+    if (hasNotifications.get(i).getFromID() != null && hasNotifications.get(i).getReaded() == 0) {
         out.println(hasNotifications.get(i).getFromID().getUserName() + " has requested you!");
+%><br><%
     }
     if (hasNotifications.get(i).getLikeNotification() != null) {
         out.println(hasNotifications.get(i).getLikeNotification().getUserLiked().getUserName() + " liked your post!");
     }
-    if (hasNotifications.get(i).getCommentNotification() != null) {
+    if (hasNotifications.get(i).getCommentNotification() != null && hasNotifications.get(i).getReaded() == 0) {
         out.println(hasNotifications.get(i).getCommentNotification().getUserComment().getUserName() + " send comment on your post!");
-    }
 %><br><%
+            }
         }
     } else {
         out.print("You don't have notifications, sorry!.");

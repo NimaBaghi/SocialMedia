@@ -4,10 +4,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.socialMedia.entities.Comment;
-import org.socialMedia.entities.LikeDetails;
-import org.socialMedia.entities.Post;
-import org.socialMedia.entities.User;
+import org.socialMedia.entities.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -29,6 +26,7 @@ public class Comments extends HttpServlet {
         int postID = 0;
         User me = null;
         Comment comment = null;
+        Notification notification = null;
         if (req.getParameter("com") == null) {
             String comment1 = req.getParameter("comment");
             String[] splitComment = comment1.split(" ");
@@ -81,13 +79,24 @@ public class Comments extends HttpServlet {
                     }
                 }
                 List<Comment> comments = query2.list();
+                boolean checkMe = false;
                 for (int i = 0; i < posts.size(); i++) {
                     if (postID == posts.get(i).getPostID()) {
                         comment.setPostComment(posts.get(i));
+                        if (posts.get(i).getUser().getUserID() != me.getUserID()) {
+                            checkMe = true;
+                            notification = new Notification(0);
+                            notification.setUserNotification(posts.get(i).getUser());
+                        }
                     }
                 }
                 if (!req.getParameter("com").equals("")) {
                     sessionObj.save(comment);
+                    if (checkMe) {
+                        notification.setCommentNotification(comment);
+                        notification.setPostNotification(comment.getPostComment());
+                        sessionObj.save(notification);
+                    }
                 }
             }
             sessionObj.getTransaction().commit();
