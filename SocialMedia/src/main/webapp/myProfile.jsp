@@ -7,6 +7,7 @@
 <%@ page import="org.hibernate.Session" %>
 <%@ page import="org.hibernate.SessionFactory" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="org.socialMedia.servlets.Upload" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -28,24 +29,29 @@
             location.href = "settings.jsp";
         };
     </script>
+
     <br>
     <br>
+
+    <% if (user.getProfilePicture() != null) { %>
     Profile picture:
     <br>
     <%
         String url = user.getProfilePicture();
     %>
     <img height="400px" width="400px" style="border: 3px solid salmon;" src="<%=url%>">
+
+    <% } else {%>
+    You don't have profile picture!
+    <% } %>
     <br>
     <br>
     <br>
     <%!
-        public static Session sessionObj;
-        public static SessionFactory sessionFactoryObj;
+        private Session sessionObj;
+        private SessionFactory sessionFactoryObj = Upload.sessionFactoryObj;
     %>
-    Your posts:
-    <br>
-    <br>
+
     <%
         List<Post> posts = new ArrayList<Post>();
         try {
@@ -73,13 +79,17 @@
                 sessionObj.close();
             }
         }
-        if (posts.size() != 0) {
-            for (int i = 0; i < posts.size(); i++) {
-                String myPostUrl = posts.get(i).getUrl();
-    %>
-    <img height="800px" width="800px" style="border: 3px solid salmon;" src="/images/<%=myPostUrl%>">
+        if (posts.size() != 0) { %>
+    Your posts:
     <br>
-    <%=posts.get(i).getCaption()%>
+    <br>
+    <%
+        for (int i = 0; i < posts.size(); i++) {
+            String myPostUrl = posts.get(i).getUrl();
+    %>
+    <img height="800px" width="800px" style="border: 3px solid salmon;" src="<%=myPostUrl%>">
+    <br>
+    Caption: <%=posts.get(i).getCaption()%>
     <br>
     <br>
     <%

@@ -30,13 +30,14 @@ public class Setting extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("userDetails");
 
+        boolean fileSize = req.getPart("file").getSize() < 10000;
         String uploadLocation = "";
-        String fileName = "profilepicture.jpg";
-        if (req.getPart("file") != null) {
+        String fileName = "profilepicture" + user.getUserID() + ".jpg";
+        if (!fileSize) {
             Part filePart = req.getPart("file");
             System.out.println("file: " + filePart);
 
-            uploadLocation = "E:\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
+            uploadLocation = "C:\\Users\\RaXeL\\IdeaProjects\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
             uploadLocation = uploadLocation + "\\" + user.getUserID();
 
             File uploads = new File(uploadLocation);
@@ -66,7 +67,7 @@ public class Setting extends HttpServlet {
             sessionObj.beginTransaction();
 
             String queryString = "";
-            if (req.getPart("file") == null) {
+            if (fileSize) {
                 queryString = "Update User Set profilePrivacy =:profileprivacy Where userID =:uID AND userName =:username";
             } else {
                 queryString = "Update User Set profilePrivacy =:privacy, profilePicture =:pictureurl Where userID =:uID AND userName =:username";
