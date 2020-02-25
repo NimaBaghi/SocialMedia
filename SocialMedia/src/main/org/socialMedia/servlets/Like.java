@@ -58,7 +58,7 @@ public class Like extends HttpServlet {
                     like.setPost(posts.get(i));
                 }
             }
-            resp.getWriter().println(i);
+            resp.getWriter().println("Liked ("+i +")");
             sessionObj.save(like);
 
             sessionObj.getTransaction().commit();
