@@ -1,9 +1,15 @@
 <%@ page import="org.socialMedia.entities.User" %>
 <%@ page import="org.socialMedia.entities.Post" %>
 <%@ page import="java.util.List" %>
+<%@ page import="org.hibernate.Session" %>
+<%@ page import="org.hibernate.SessionFactory" %>
+<%@ page import="org.hibernate.cfg.Configuration" %>
+<%@ page import="org.hibernate.Query" %>
+<%@ page import="org.socialMedia.entities.LikeDetails" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
+<% User me = (User) request.getSession().getAttribute("userDetails");%>
 <% User user = (User) request.getSession().getAttribute("userProfile"); %>
 <head>
     <title><%= user.getUserName() %>
@@ -44,18 +50,27 @@
         <input type="submit" formaction="requestList" formmethod="get" value="<%=user.getUserName()%> Requeted You">
         <% } %>
     </form>
-
-    <% List<Post> userPo = (List<Post>) request.getSession().getAttribute("usersPosts"); %>
-
-    <% if (userPo == null || userPo.size() == 0) { %>
-        Nothing yet!
+    <% List<Post> userPo = (List<Post>) request.getSession().getAttribute("usersPosts");
+        if (user.getProfilePicture() != null) { %>
+    Profile picture:
+    <br>
+    <%
+        String url = user.getProfilePicture();
+    %>
+    <img height="400px" width="400px" style="border: 3px solid salmon;" src="<%=url%>">
+    <br>
+    <br>
+    <% }
+        if (request.getAttribute("added") == "friends" || user.getProfilePrivacy() == 1) {
+            if (userPo == null || userPo.size() == 0) { %>
+    Nothing yet!
     <% } else {%>
 
     <% user.getUserName(); %> Posted:
     <br>
 
     <% for (int i = 0; i < userPo.size(); i++) {
-        String url = "images/" + userPo.get(i).getUrl();
+        String url = userPo.get(i).getUrl();
     %>
 
     <br>
@@ -64,7 +79,10 @@
     <img src="<%= url %>" height="800" width="800">
 
     <% }
-    } %>
+    }
+    } else {
+    %>   Profile is private!
+    <%}%>
 </center>
 </body>
 </html>
