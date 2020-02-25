@@ -50,7 +50,6 @@
     <button id="notify">Notifactions(<%=counter%>)</button>
     <br>
     <br>
-
     <%
             Query query1 = sessionObj.createQuery("from Post");
             List<Post> posts = query1.list();
@@ -100,14 +99,16 @@
     <br>
     <br>
 
-    <% if(listOfPosts.size() == 0 || listOfPosts == null){ %>
-            Nothing Yet!
-        <%} else {
+    <% if (listOfPosts.size() == 0 || listOfPosts == null) { %>
+    Nothing Yet!
+    <%
+    } else {
         HashSet<Integer> hashSet = new HashSet<Integer>();
         for (int i = 0; i < userLiked.size(); i++) {
             hashSet.add(userLiked.get(i).getPostID());
         }
-        for (int i = 0; i < listOfPosts.size(); i++) {%>
+        for (int i = 0; i < listOfPosts.size(); i++) {
+    %>
     <p><% out.print(listOfPosts.get(i).getUser().getUserName()); %> Posted:</p>
     <% String url = "images/" + listOfPosts.get(i).getUrl();%>
     <img src="<%= url %>" width="800" height="800"/>
@@ -138,29 +139,35 @@
     <br>
     <p>Caption: <% out.print(listOfPosts.get(i).getCaption()); %></p>
 
-    <%  try {
-            sessionObj = sessionFactoryObj.openSession();
-            sessionObj.beginTransaction();
+    <% try {
+        sessionObj = sessionFactoryObj.openSession();
+        sessionObj.beginTransaction();
 
-            Query query = sessionObj.createQuery("select h from Post p inner join p.hashtags h where p.postID=:pID");
-            query.setParameter("pID", listOfPosts.get(i).getPostID());
-            List<Hashtag> hashtags = query.list(); %>
+        Query query = sessionObj.createQuery("select h from Post p inner join p.hashtags h where p.postID=:pID");
+        query.setParameter("pID", listOfPosts.get(i).getPostID());
+        List<Hashtag> hashtags = query.list(); %>
     <p>Hashtags: <%
         for (int j = 0; j < hashtags.size(); j++) {
             out.print("#" + hashtags.get(j).getText());
         } %></p>
-    <% sessionObj.getTransaction().commit();
-    } catch (Exception sqlException) {
-        if (null != sessionObj.getTransaction()) {
-            System.out.println("\n.......Transaction Is Being Rolled Back.......");
-            sessionObj.getTransaction().rollback();
+    <br>
+    <form method="post" action="comm">
+        <input type="submit" name="comment" value="Comment <%=listOfPosts.get(i).getPostID()%>">
+    </form>
+    <%
+
+            sessionObj.getTransaction().commit();
+        } catch (Exception sqlException) {
+            if (null != sessionObj.getTransaction()) {
+                System.out.println("\n.......Transaction Is Being Rolled Back.......");
+                sessionObj.getTransaction().rollback();
+            }
+            sqlException.printStackTrace();
+        } finally {
+            if (sessionObj != null) {
+                sessionObj.close();
+            }
         }
-        sqlException.printStackTrace();
-    } finally {
-        if (sessionObj != null) {
-            sessionObj.close();
-        }
-    }
     %>
     <br>
     <br>
@@ -189,7 +196,8 @@
     };
     document.getElementById("myPro").onclick = function () {
         location.href = "myProfile.jsp";
-    };document.getElementById("out").onclick = function () {
+    };
+    document.getElementById("out").onclick = function () {
         location.href = "out";
     };
 </script>
