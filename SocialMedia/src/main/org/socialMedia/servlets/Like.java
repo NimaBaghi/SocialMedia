@@ -31,9 +31,7 @@ public class Like extends HttpServlet {
         int postID = Integer.parseInt(stringPostID);
         LikeDetails like = new LikeDetails();
         like.setUserLiked(user);
-        System.out.println("username: " + user.getUserName());
-        System.out.println("User ID: " + user.getUserID());
-        System.out.println(req.getSession().getAttribute("faraz"));
+
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -58,7 +56,7 @@ public class Like extends HttpServlet {
                     like.setPost(posts.get(i));
                 }
             }
-            resp.getWriter().println("Liked ("+i +")");
+            resp.getWriter().println("Liked (" + i + ")");
             sessionObj.save(like);
 
             sessionObj.getTransaction().commit();

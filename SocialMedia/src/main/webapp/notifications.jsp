@@ -33,13 +33,13 @@
         for (int i = hasNotifications.size() - 1; i >= 0; i--) {
     %><br><%
     if (hasNotifications.get(i).getFromID().getUserName() != null) {
-        out.println(hasNotifications.get(i).getFromID().getUserName() + " Has requested you!");
+        out.println(hasNotifications.get(i).getFromID().getUserName() + " has requested you!");
     }
     if (hasNotifications.get(i).getLikeNotification() != null) {
-        out.println(hasNotifications.get(i).getLikeNotification().getUserLiked().getUserName() + " Liked your post!");
+        out.println(hasNotifications.get(i).getLikeNotification().getUserLiked().getUserName() + " liked your post!");
     }
     if (hasNotifications.get(i).getCommentNotification() != null) {
-        out.println(hasNotifications.get(i).getCommentNotification().getUserComment().getUserName() + " Send comment on your post!");
+        out.println(hasNotifications.get(i).getCommentNotification().getUserComment().getUserName() + " send comment on your post!");
     }
 %><br><%
         }

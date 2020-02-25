@@ -20,7 +20,7 @@
         private ArrayList<Post> userLiked;
         private List<Integer> postLikes;%>
 
-
+    <button id="out">Sign out</button>
     <button id="addPost">Add a post</button>
     <button id="search">Search</button>
     <button id="rList">Requests List</button>
@@ -100,7 +100,9 @@
     <br>
     <br>
 
-    <%
+    <% if(listOfPosts.size() == 0 || listOfPosts == null){ %>
+            Nothing Yet!
+        <%} else {
         HashSet<Integer> hashSet = new HashSet<Integer>();
         for (int i = 0; i < userLiked.size(); i++) {
             hashSet.add(userLiked.get(i).getPostID());
@@ -163,7 +165,8 @@
     <br>
     <br>
     <br>
-    <% } %>
+    <% }
+    }%>
 
 </center>
 
@@ -186,6 +189,8 @@
     };
     document.getElementById("myPro").onclick = function () {
         location.href = "myProfile.jsp";
+    };document.getElementById("out").onclick = function () {
+        location.href = "out";
     };
 </script>
 

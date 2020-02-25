@@ -47,8 +47,13 @@
 
     <% List<Post> userPo = (List<Post>) request.getSession().getAttribute("usersPosts"); %>
 
+    <% if (userPo == null || userPo.size() == 0) { %>
+        Nothing yet!
+    <% } else {%>
+
     <% user.getUserName(); %> Posted:
     <br>
+
     <% for (int i = 0; i < userPo.size(); i++) {
         String url = "images/" + userPo.get(i).getUrl();
     %>
@@ -58,7 +63,8 @@
 
     <img src="<%= url %>" height="800" width="800">
 
-    <% } %>
+    <% }
+    } %>
 </center>
 </body>
 </html>
