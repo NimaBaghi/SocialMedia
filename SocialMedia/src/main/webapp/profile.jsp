@@ -61,7 +61,7 @@
     <br>
     <br>
     <% }
-        if (request.getAttribute("added") == "friends" || user.getProfilePrivacy() == 1) {
+        if (request.getAttribute("added") == "friends" || user.getProfilePrivacy() == 1 || user.getUserID() == me.getUserID()) {
             if (userPo == null || userPo.size() == 0) { %>
     Nothing yet!
     <% } else {%>
