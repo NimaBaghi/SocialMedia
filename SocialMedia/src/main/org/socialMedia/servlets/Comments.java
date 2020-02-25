@@ -63,8 +63,6 @@ public class Comments extends HttpServlet {
                 }
                 List<Comment> comments = query2.list();
                 req.setAttribute("commentList", comments);
-
-
                 Query query = sessionObj.createQuery("from Comment ");
                 List<Comment> commentt = query.list();
                 ArrayList<String> contexts = new ArrayList<String>();
@@ -88,7 +86,9 @@ public class Comments extends HttpServlet {
                         comment.setPostComment(posts.get(i));
                     }
                 }
-                sessionObj.save(comment);
+                if (!req.getParameter("com").equals("")) {
+                    sessionObj.save(comment);
+                }
             }
             sessionObj.getTransaction().commit();
 

@@ -32,7 +32,6 @@
 
     <br>
     <br>
-
     <% if (user.getProfilePicture() != null) { %>
     Profile picture:
     <br>
@@ -91,6 +90,9 @@
     <br>
     Caption: <%=posts.get(i).getCaption()%>
     <br>
+    <form method="post" action="comm">
+        <input type="submit" name="comment" value="Comment <%=posts.get(i).getPostID()%>">
+    </form>
     <br>
     <%
         }
