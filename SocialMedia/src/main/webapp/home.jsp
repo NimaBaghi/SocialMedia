@@ -20,7 +20,7 @@
         private ArrayList<Post> userLiked;
         private List<Integer> postLikes;%>
 
-    <button id="po">Posts</button>
+
     <button id="addPost">Add a post</button>
     <button id="search">Search</button>
     <button id="rList">Requests List</button>
@@ -186,9 +186,6 @@
     };
     document.getElementById("myPro").onclick = function () {
         location.href = "myProfile.jsp";
-    };
-    document.getElementById("po").onclick = function () {
-        location.href = "posts";
     };
 </script>
 
