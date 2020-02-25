@@ -42,6 +42,7 @@
     <button id="rList">Requests List</button>
     <button id="fList">Friends List</button>
     <button id="notify">Notifactions(<%=counter%>)</button>
+    <button id="myPro">My profile</button>
     <br>
     <br>
     <%
@@ -76,7 +77,9 @@
         document.getElementById("notify").onclick = function () {
             location.href = "notif";
         };
-
+        document.getElementById("myPro").onclick = function () {
+            location.href = "myProfile.jsp";
+        };
     </script>
 </center>
 
