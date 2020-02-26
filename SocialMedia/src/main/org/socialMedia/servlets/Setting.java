@@ -37,7 +37,7 @@ public class Setting extends HttpServlet {
             Part filePart = req.getPart("file");
             System.out.println("file: " + filePart);
 
-            uploadLocation = "C:\\Users\\RaXeL\\IdeaProjects\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
+            uploadLocation = req.getServletContext().getRealPath("/images");
             uploadLocation = uploadLocation + "\\" + user.getUserID();
 
             File uploads = new File(uploadLocation);

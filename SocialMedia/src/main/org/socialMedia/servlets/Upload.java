@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Date;
+import java.util.UUID;
 
 @WebServlet("/upload")
 @MultipartConfig
@@ -41,7 +42,8 @@ public class Upload extends HttpServlet {
         } else {
             Part filePart = req.getPart("file");
 
-            String fileName = getSubmittedFileName(filePart);
+            String randomValue = UUID.randomUUID().toString();
+            String fileName = randomValue + ".jpg";
 
             String caption = req.getParameter("caption");
 
@@ -50,7 +52,8 @@ public class Upload extends HttpServlet {
             String[] hashtags = inputHashtags.split("#");
 
 
-            String uploadLocation = "C:\\Users\\RaXeL\\IdeaProjects\\SocialMedia\\SocialMedia\\src\\main\\webapp\\images";
+            String uploadLocation = req.getServletContext().getRealPath("/images");
+
 
             File imageLoc = new File(uploadLocation);
 
@@ -65,7 +68,7 @@ public class Upload extends HttpServlet {
             if (!upload.exists()) {
                 upload.mkdir();
             }
-
+            fileName = randomValue + ".jpg";
             File file = new File(upload, fileName);
             fileName = "images/" + user.getUserID() + "/" + fileName;
 
@@ -112,15 +115,5 @@ public class Upload extends HttpServlet {
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("postDetails.jsp");
             requestDispatcher.forward(req, resp);
         }
-    }
-
-    private static String getSubmittedFileName(Part part) {
-        for (String cd : part.getHeader("content-disposition").split(";")) {
-            if (cd.trim().startsWith("filename")) {
-                String fileName = cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
-                return fileName.substring(fileName.lastIndexOf('/') + 1).substring(fileName.lastIndexOf('\\') + 1); // MSIE fix.
-            }
-        }
-        return null;
     }
 }
