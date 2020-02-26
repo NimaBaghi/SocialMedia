@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.socialMedia.entities.LikeDetails;
+import org.socialMedia.entities.Notification;
 import org.socialMedia.entities.Post;
 import org.socialMedia.entities.User;
 
@@ -26,11 +27,17 @@ public class Like extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("userDetails");
-        System.out.println(req.getParameter("postID"));
+
+       // System.out.println(req.getParameter("postID"));
+
         String stringPostID = req.getParameter("postID");
+
         int postID = Integer.parseInt(stringPostID);
         LikeDetails like = new LikeDetails();
         like.setUserLiked(user);
+
+        Notification likeNotification = new Notification(0);
+
 
         try {
             Configuration configuration = new Configuration();
@@ -54,10 +61,19 @@ public class Like extends HttpServlet {
             for (int i = 0; i < posts.size(); i++) {
                 if (postID == posts.get(i).getPostID()) {
                     like.setPost(posts.get(i));
+
+//                    likeNotification.setUserNotification(posts.get(i).getUser());
+//                    likeNotification.setPostNotification(posts.get(i));
                 }
             }
+
             resp.getWriter().println("Liked (" + i + ")");
             sessionObj.save(like);
+
+            likeNotification.setLikeNotification(like);
+            likeNotification.setPostNotification(like.getPost());
+            likeNotification.setUserNotification(like.getPost().getUser());
+            sessionObj.save(likeNotification);
 
             sessionObj.getTransaction().commit();
 

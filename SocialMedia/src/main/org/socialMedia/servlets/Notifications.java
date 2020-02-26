@@ -56,6 +56,14 @@ public class Notifications extends HttpServlet {
                         query2.executeUpdate();
                         hasNotifications.add(notificationList.get(i));
                     }
+                    if(notificationList.get(i).getLikeNotification() != null){
+                        Query query3 = sessionObj.createQuery("Update Notification Set readed = 1 Where likeNotification=:likeID and postNotification=:post and userNotification =:tID ");
+                        query3.setParameter("likeID", notificationList.get(i).getLikeNotification());
+                        query3.setParameter("post", notificationList.get(i).getPostNotification());
+                        query3.setParameter("tID", notificationList.get(i).getUserNotification());
+                        query3.executeUpdate();
+                        hasNotifications.add(notificationList.get(i));
+                    }
                 }
             }
             req.setAttribute("userNotifications", hasNotifications);
