@@ -1,6 +1,8 @@
 <%@ page import="org.socialMedia.entities.Hashtag" %>
 <%@ page import="org.socialMedia.entities.Post" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.LinkedHashSet" %>
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -23,7 +25,7 @@
         };
     </script>
 
-    <% List<Post> postsFound = (List<Post>) request.getAttribute("hashtagPosts"); %>
+    <% ArrayList<Post> postsFound = (ArrayList<Post>) request.getAttribute("hashtagPosts"); %>
 
     <% for (int i = 0; i < postsFound.size(); i++) { %>
 

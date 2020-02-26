@@ -4,6 +4,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.socialMedia.entities.Friend;
 import org.socialMedia.entities.Hashtag;
 import org.socialMedia.entities.Post;
 import org.socialMedia.entities.User;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/hashtagPrepare")
@@ -25,6 +27,7 @@ public class HashtagPrepare extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String hashtagFound = req.getParameter("hashtagFound");
+        User me = (User) req.getSession().getAttribute("userDetails");
         try {
             Configuration configuration = new Configuration();
             configuration.configure("hibernate.cfg.xml");
@@ -46,7 +49,31 @@ public class HashtagPrepare extends HttpServlet {
             }
             Query query1 = sessionObj.createQuery("select p from Post p inner join p.hashtags h where h.text =:hashtext");
             query1.setParameter("hashtext", clicked.getText());
-            List<Post> postsForHashtag = query1.list();
+            List<Post> allPostsForHashtag = query1.list();
+
+
+
+            Query query2 = sessionObj.createQuery("from Friend ");
+            List<Friend> friends = query2.list();
+            ArrayList<User> userFriends = new ArrayList<>();
+
+            for (int i = 0; i < friends.size(); i++) {
+                if (me.getUserID() == friends.get(i).getToID().getUserID() && friends.get(i).getStatus() == 2) {
+                    userFriends.add(friends.get(i).getFromID());
+                } else if (me.getUserID() == friends.get(i).getFromID().getUserID() && friends.get(i).getStatus() == 2) {
+                    userFriends.add(friends.get(i).getToID());
+                }
+            }
+
+            List<Post> postsForHashtag = new ArrayList<>();
+            for (int i = 0; i < allPostsForHashtag.size(); i++) {
+                for (int j = 0; j < userFriends.size(); j++) {
+                    if(allPostsForHashtag.get(i).getUser().getUserID() == userFriends.get(j).getUserID() || allPostsForHashtag.get(i).getUser().getUserID() == me.getUserID()){
+                        postsForHashtag.add(allPostsForHashtag.get(i));
+                        break;
+                    }
+                }
+            }
 
             req.setAttribute("hashtagPosts", postsForHashtag);
 
