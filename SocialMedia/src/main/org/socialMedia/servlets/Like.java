@@ -28,8 +28,6 @@ public class Like extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User) req.getSession().getAttribute("userDetails");
 
-       // System.out.println(req.getParameter("postID"));
-
         String stringPostID = req.getParameter("postID");
 
         int postID = Integer.parseInt(stringPostID);
@@ -61,9 +59,6 @@ public class Like extends HttpServlet {
             for (int i = 0; i < posts.size(); i++) {
                 if (postID == posts.get(i).getPostID()) {
                     like.setPost(posts.get(i));
-
-//                    likeNotification.setUserNotification(posts.get(i).getUser());
-//                    likeNotification.setPostNotification(posts.get(i));
                 }
             }
 

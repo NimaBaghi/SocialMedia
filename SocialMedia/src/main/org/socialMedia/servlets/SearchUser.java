@@ -25,8 +25,6 @@ public class SearchUser extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String userName = req.getParameter("searchUser");
         if (userName == null || userName.trim().equals("")) {
-            req.setAttribute("fields", "null");
-            req.setAttribute("uname", userName);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("search.jsp");
             requestDispatcher.forward(req, resp);
         } else {

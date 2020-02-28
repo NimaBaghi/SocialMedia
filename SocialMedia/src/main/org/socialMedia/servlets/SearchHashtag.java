@@ -29,8 +29,6 @@ public class SearchHashtag extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String hashtag = req.getParameter("searchHashtag");
         if (hashtag == null || hashtag.trim().equals("")) {
-//            req.setAttribute("fields", "null");
-//            req.setAttribute("uname", hashtag);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("search.jsp");
             requestDispatcher.forward(req, resp);
         } else {

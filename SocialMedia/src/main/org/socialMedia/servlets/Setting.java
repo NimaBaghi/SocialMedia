@@ -31,6 +31,8 @@ public class Setting extends HttpServlet {
         User user = (User) req.getSession().getAttribute("userDetails");
 
         boolean fileSize = req.getPart("file").getSize() < 10000;
+        // if the size of file is lower than 10kb so don't save it.
+
         String uploadLocation = "";
         String fileName = "profilepicture" + user.getUserID() + ".jpg";
         if (!fileSize) {

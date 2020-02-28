@@ -59,8 +59,7 @@ public class FriendSituation extends HttpServlet {
                 query1.setParameter("tID", friend.getToID());
 
                 query1.executeUpdate();
-            }
-            else {
+            } else {
                 for (int i = 0; i < users.size(); i++) {
                     if (users.get(i).getUserName().equals(rejUsername[1])) {
                         friend.setFromID(users.get(i));

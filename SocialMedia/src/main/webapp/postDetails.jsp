@@ -22,7 +22,6 @@
     </script>
 
     <br>
-    Careful if you insert two picture with same name it will show one of them!
     <br>
     <% if (request.getAttribute("uploadPost") != null) { %>
     <h1 style="color: red">
