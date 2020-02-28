@@ -40,6 +40,12 @@ public class Setting extends HttpServlet {
             System.out.println("file: " + filePart);
 
             uploadLocation = req.getServletContext().getRealPath("/images");
+
+            File checkImageExist = new File(uploadLocation);
+            if (!checkImageExist.exists()) {
+                checkImageExist.mkdir();
+            }
+
             uploadLocation = uploadLocation + "\\" + user.getUserID();
 
             File uploads = new File(uploadLocation);
